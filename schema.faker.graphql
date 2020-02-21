@@ -23,21 +23,94 @@ type Cipher {
   
 }
 
+type EmailScan implements Node {
+  """The ID of the object."""
+  id: ID!
+  domain: String @fake(type: domainName)
+  timestamp: DateTime @fake(type: pastDate)
+  dmarc: DMARC
+  spf: SPF
+  dkim: DKIM
+}
+
+type DMARC {
+  id: ID!
+  domain: String @fake(type: domainName)
+  timestamp: DateTime @fake(type: pastDate)
+  record: String
+  p_policy: String
+  sp_policy:String
+  pct: Int
+}
+
+type SPF {
+  id: ID!
+  domain: String @fake(type: domainName)
+  timestamp: DateTime @fake(type: pastDate)
+  lookups: Int
+  record: String
+  spf_default: String  
+}
+
+type DKIM{
+  id: ID!
+  domain: String @fake(type: domainName)
+  timestamp: DateTime @fake(type: pastDate)
+  key_type: String
+  record: String
+  key_length: Int
+}
+
+type TLSVersion {
+  version: Float @examples(values: [1.1, 1.2, 1.3])
+}
+
+type TLSScan implements Node {
+  """The ID of the object."""
+  id: ID!
+  domain: String @fake(type: domainName)
+  timestamp: DateTime @fake(type: pastDate)
+  ciphers: [Cipher]
+  supportedVersions: [TLSVersion]
+}
+
+type DMARCScan implements Node {
+  """The ID of the object."""
+  id: ID!
+  domain: String @fake(type: domainName)
+  timestamp: DateTime @fake(type: pastDate)
+  ciphers: [Cipher]
+  supportedVersions: [TLSVersion]
+}
+
+type DNS implements Node {
+  """The ID of the object."""
+  id: ID!
+  """ Host address """
+  a: String @fake(type: domainName)
+  """IPv6 host address"""
+  aaaa: String @fake(type: ipv6Address)
+  """Auto resolved alias"""
+  alias: String
+  """Canonical name for an alias"""
+  cname: String
+  """Mail eXchange"""
+  mx: String
+  """Name Server"""
+  ns: String
+  """Pointer"""
+  ptr: String
+  """Start Of Authority"""
+  soa: String
+}
 
 type Domain implements Node {
   """The ID of the object."""
   id: ID!
+  dns: DNS
   url: String @fake(type: domainName)
-  lastRun: DateTime @fake(type: pastDate)
-  scanSpf: Boolean @examples(values: [true, false])
-  scanDmarc: Boolean
-  scanDmarcPsl: Boolean
-  scanMx: Boolean
-  scanDkim: Boolean
-  scanHttps: Boolean
-  scanSsl: Boolean
-  dmarcPhase: Int
-  ciphers: [Cipher]
+  tls: [TLSScan]
+  email: [EmailScan]
   organization: Organization
 }
 
