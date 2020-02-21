@@ -52,7 +52,7 @@ type SPF {
   spf_default: String  
 }
 
-type DKIM{
+type DKIM {
   id: ID!
   domain: String @fake(type: domainName)
   timestamp: DateTime @fake(type: pastDate)
@@ -104,12 +104,16 @@ type DNS implements Node {
   soa: String
 }
 
+type WWWScan {
+  tls: [TLSScan]
+}
+
 type Domain implements Node {
   """The ID of the object."""
   id: ID!
   dns: DNS
-  url: String @fake(type: domainName)
-  tls: [TLSScan]
+  url: String @fake(type: domainName)  
+  www: [WWWScan]
   email: [EmailScan]
   organization: Organization
 }
