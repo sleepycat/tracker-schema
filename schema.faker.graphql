@@ -1,3 +1,142 @@
+type DmarcRecord {
+  record: String
+    @examples(
+      values: [
+        "v=DMARC1; p=none; pct=100; rua=mailto:dmarc@cyber.gc.ca; ruf=mailto:dmarc@cyber.gc.ca; fo=1"
+        "v=DMARC1; p=none; sp=none; rua=mailto:dmarc@cyber.gc.ca"
+      ]
+    )
+}
+
+type PPolicy {
+  value: String @examples(values: ["none", "missing", "quarantine", "reject"])
+}
+
+type SpPolicy {
+  value: String @examples(values: ["none", "missing", "quarantine", "reject"])
+}
+
+type Pct {
+  value: Int @examples(values: [0, 20, 60, 70, 90, 100])
+}
+
+type DmarcTags {
+  value: String
+    @examples(
+      values: [
+        "DMARC-GC"
+        "DMARC-missing"
+        "P-missing"
+        "P-None"
+        "P-quarantine"
+        "CNAME-DMARC"
+        "RUA-none"
+      ]
+    )
+}
+
+type SpfLookups {
+  value: Int @examples(values: [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10])
+}
+
+type SpfRecord {
+  record: String
+    @examples(
+      values: [
+        "v=spf1 ip4:40.92.0.0/15 ip4:40.107.0.0/16 ip4:52.100.0.0/14 ip4:104.47.0.0/17 ip6:2a01:111:f400::/48 ip6:2a01:111:f403::/48 -all"
+        "v=spf1 ip4:198.103.111.114/31 ip4:205.193.224.70 ip4:205.193.224.90 ip4:216.13.57.101 ip4:216.13.57.102 ip4:209.82.9.21 ip4:209.82.9.23 ip4:198.103.112.150/31 ip4:205.192.34.113 ip4:205.192.34.56 ip4:205.192.34.58 -all"
+      ]
+    )
+}
+
+type SpfDefault {
+  record: String @examples(values: ["neutral", "softfail", "include", "fail"])
+}
+
+type SpfTags {
+  value: String
+    @examples(
+      values: [
+        "SPF-GC"
+        "SPF-missing"
+        "SPF-bad-path"
+        "ALL-missing"
+        "INCLUDE-limit"
+      ]
+    )
+}
+
+type DkimType {
+  value: String @examples(values: ["rsa", "ed25519"])
+}
+
+type DkimRecord {
+  record: String
+    @examples(
+      values: [
+        "v=DKIM1; k=rsa; p=MIGfMA0GCSqGSIb3DQEBAQUAA4GNADCBiQKBgQC3rvAQg9bl72tae1RFu4zdx1ZE4E8VUbQfxDcm;"
+      ]
+    )
+}
+
+type DkimKeyLength {
+  value: String @examples(values: ["sub1024", "1024", "2048", "2048plus"])
+}
+
+type DkimTags {
+  value: String
+    @examples(
+      values: [
+        "DKIM-GC"
+        "DKIM-missing"
+        "P-1024"
+        "P-2048"
+        "P-invalid"
+        "T-enabled"
+      ]
+    )
+}
+
+type EmailScan implements Node {
+  """
+  The ID of the object.
+  """
+  id: ID!
+  domain: String @fake(type: domainName)
+  timestamp: DateTime @fake(type: pastDate)
+  dmarc: DMARC
+  spf: SPF
+  dkim: DKIM
+}
+type DMARC {
+  id: ID!
+  domain: String @fake(type: domainName)
+  timestamp: DateTime @fake(type: pastDate)
+  record: [DmarcRecord]
+  p_policy: [PPolicy]
+  sp_policy: [SpPolicy]
+  pct: [Pct]
+  dmarcGuidanceTags: [DmarcTags]
+}
+type SPF {
+  id: ID!
+  domain: String @fake(type: domainName)
+  timestamp: DateTime @fake(type: pastDate)
+  lookups: [SpfLookups]
+  record: [SpfRecord]
+  spf_default: [SpfDefault]
+  spfGuidanceTags: [SpfTags]
+}
+
+type DKIM {
+  id: ID!
+  domain: String @fake(type: domainName)
+  timestamp: DateTime @fake(type: pastDate)
+  record: [DkimRecord]
+  key_length: [DkimKeyLength]
+  dkimGuidanceTags: [DkimTags]
+}
+
 type CreateUser {
   user: UserObject
 }
@@ -20,46 +159,6 @@ type Cipher {
         "TLS_RSA_WITH_AES_128_GCM_SHA256"
       ]
     )
-}
-
-type EmailScan implements Node {
-  """
-  The ID of the object.
-  """
-  id: ID!
-  domain: String @fake(type: domainName)
-  timestamp: DateTime @fake(type: pastDate)
-  dmarc: DMARC
-  spf: SPF
-  dkim: DKIM
-}
-
-type DMARC {
-  id: ID!
-  domain: String @fake(type: domainName)
-  timestamp: DateTime @fake(type: pastDate)
-  record: String
-  p_policy: String
-  sp_policy: String
-  pct: Int
-}
-
-type SPF {
-  id: ID!
-  domain: String @fake(type: domainName)
-  timestamp: DateTime @fake(type: pastDate)
-  lookups: Int
-  record: String
-  spf_default: String
-}
-
-type DKIM {
-  id: ID!
-  domain: String @fake(type: domainName)
-  timestamp: DateTime @fake(type: pastDate)
-  key_type: String
-  record: String
-  key_length: Int
 }
 
 type TLSVersion {
@@ -94,7 +193,7 @@ type DNS implements Node {
   """
   id: ID!
   """
-   Host address
+  Host address
   """
   a: String @fake(type: domainName)
   """
