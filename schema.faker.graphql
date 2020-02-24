@@ -1,4 +1,3 @@
-
 type CreateUser {
   user: UserObject
 }
@@ -11,20 +10,22 @@ value as specified by
 scalar DateTime
 
 type Cipher {
-  name: String @examples(
-    values: [
-      "TLS_ECDHE_RSA_WITH_CHACHA20_POLY1305"
-      "TLS_ECDHE_ECDSA_WITH_CHACHA20_POLY1305"
-      "TLS_RSA_WITH_3DES_EDE_CBC_SHA"
-      "TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA"
-      "TLS_RSA_WITH_AES_128_GCM_SHA256"
-    ]
-  )
-  
+  name: String
+    @examples(
+      values: [
+        "TLS_ECDHE_RSA_WITH_CHACHA20_POLY1305"
+        "TLS_ECDHE_ECDSA_WITH_CHACHA20_POLY1305"
+        "TLS_RSA_WITH_3DES_EDE_CBC_SHA"
+        "TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA"
+        "TLS_RSA_WITH_AES_128_GCM_SHA256"
+      ]
+    )
 }
 
 type EmailScan implements Node {
-  """The ID of the object."""
+  """
+  The ID of the object.
+  """
   id: ID!
   domain: String @fake(type: domainName)
   timestamp: DateTime @fake(type: pastDate)
@@ -39,7 +40,7 @@ type DMARC {
   timestamp: DateTime @fake(type: pastDate)
   record: String
   p_policy: String
-  sp_policy:String
+  sp_policy: String
   pct: Int
 }
 
@@ -49,7 +50,7 @@ type SPF {
   timestamp: DateTime @fake(type: pastDate)
   lookups: Int
   record: String
-  spf_default: String  
+  spf_default: String
 }
 
 type DKIM {
@@ -66,7 +67,9 @@ type TLSVersion {
 }
 
 type TLSScan implements Node {
-  """The ID of the object."""
+  """
+  The ID of the object.
+  """
   id: ID!
   domain: String @fake(type: domainName)
   timestamp: DateTime @fake(type: pastDate)
@@ -75,7 +78,9 @@ type TLSScan implements Node {
 }
 
 type DMARCScan implements Node {
-  """The ID of the object."""
+  """
+  The ID of the object.
+  """
   id: ID!
   domain: String @fake(type: domainName)
   timestamp: DateTime @fake(type: pastDate)
@@ -84,23 +89,41 @@ type DMARCScan implements Node {
 }
 
 type DNS implements Node {
-  """The ID of the object."""
+  """
+  The ID of the object.
+  """
   id: ID!
-  """ Host address """
+  """
+   Host address
+  """
   a: String @fake(type: domainName)
-  """IPv6 host address"""
+  """
+  IPv6 host address
+  """
   aaaa: String @fake(type: ipv6Address)
-  """Auto resolved alias"""
+  """
+  Auto resolved alias
+  """
   alias: String
-  """Canonical name for an alias"""
+  """
+  Canonical name for an alias
+  """
   cname: String
-  """Mail eXchange"""
+  """
+  Mail eXchange
+  """
   mx: String
-  """Name Server"""
+  """
+  Name Server
+  """
   ns: String
-  """Pointer"""
+  """
+  Pointer
+  """
   ptr: String
-  """Start Of Authority"""
+  """
+  Start Of Authority
+  """
   soa: String
 }
 
@@ -109,29 +132,41 @@ type WWWScan {
 }
 
 type Domain implements Node {
-  """The ID of the object."""
+  """
+  The ID of the object.
+  """
   id: ID!
   dns: DNS
-  url: String @fake(type: domainName)  
+  url: String @fake(type: domainName)
   www: [WWWScan]
   email: [EmailScan]
   organization: Organization
 }
 
 type DomainsConnection {
-  """Pagination data for this connection."""
+  """
+  Pagination data for this connection.
+  """
   pageInfo: PageInfo!
 
-  """Contains the nodes in this connection."""
+  """
+  Contains the nodes in this connection.
+  """
   edges: [DomainsEdge]!
 }
 
-"""A Relay edge containing a `Domains` and its cursor."""
+"""
+A Relay edge containing a `Domains` and its cursor.
+"""
 type DomainsEdge {
-  """The item at the end of the edge"""
+  """
+  The item at the end of the edge
+  """
   node: Domain
 
-  """A cursor for use in pagination"""
+  """
+  A cursor for use in pagination
+  """
   cursor: String!
 }
 
@@ -142,287 +177,487 @@ https://www.w3.org/Protocols/rfc822/.
 scalar EmailAddress
 
 enum GroupEnums {
-  """Arts"""
+  """
+  Arts
+  """
   GC_A
 
-  """Banking and Finance"""
+  """
+  Banking and Finance
+  """
   GC_BF
 
-  """Border Services and Immigration"""
+  """
+  Border Services and Immigration
+  """
   GC_BSI
 
-  """Government Administration"""
+  """
+  Government Administration
+  """
   GC_GA
 
-  """Health"""
+  """
+  Health
+  """
   GC_H
 
-  """Industry and Business Development"""
+  """
+  Industry and Business Development
+  """
   GC_IBD
 
-  """International Affairs Trade & Development"""
+  """
+  International Affairs Trade & Development
+  """
   GC_IATD
 
-  """Legal"""
+  """
+  Legal
+  """
   GC_L
 
-  """Natural Resources Energy & Environment"""
+  """
+  Natural Resources Energy & Environment
+  """
   GC_NRED
 
-  """Security Intelligence and Defence"""
+  """
+  Security Intelligence and Defence
+  """
   GC_SID
 
-  """Transportation"""
+  """
+  Transportation
+  """
   GC_T
 
-  """Social and Cultural Development"""
+  """
+  Social and Cultural Development
+  """
   GC_SCD
 
-  """Government of Canada Future"""
+  """
+  Government of Canada Future
+  """
   GC_F
 
-  """Government (Provincial/Territorial)"""
+  """
+  Government (Provincial/Territorial)
+  """
   CI_PT
 
-  """British Columbia"""
+  """
+  British Columbia
+  """
   CI_PT_BC
 
-  """Alberta"""
+  """
+  Alberta
+  """
   CI_PT_AB
 
-  """Saskatchewan"""
+  """
+  Saskatchewan
+  """
   CI_PT_SK
 
-  """Manitoba"""
+  """
+  Manitoba
+  """
   CI_PT_MB
 
-  """Ontario"""
+  """
+  Ontario
+  """
   CI_PT_ON
 
-  """Quebec"""
+  """
+  Quebec
+  """
   CI_PT_QC
 
-  """New Brunswick"""
+  """
+  New Brunswick
+  """
   CI_PT_NB
 
-  """Nova Scotia"""
+  """
+  Nova Scotia
+  """
   CI_PT_NS
 
-  """Prince Edward Island"""
+  """
+  Prince Edward Island
+  """
   CI_PT_PEI
 
-  """Newfoundland and Labrador"""
+  """
+  Newfoundland and Labrador
+  """
   CI_PT_NL
 
-  """Yukon"""
+  """
+  Yukon
+  """
   CI_PT_YT
 
-  """Nunavut"""
+  """
+  Nunavut
+  """
   CI_PT_NU
 
-  """Northwest Territories"""
+  """
+  Northwest Territories
+  """
   CI_PT_NT
 
-  """Government (Municipal)"""
+  """
+  Government (Municipal)
+  """
   CI_MUNIC
 
-  """British Columbia"""
+  """
+  British Columbia
+  """
   CI_MUNIC_BC
 
-  """Alberta"""
+  """
+  Alberta
+  """
   CI_MUNIC_AB
 
-  """Saskatchewan"""
+  """
+  Saskatchewan
+  """
   CI_MUNIC_SK
 
-  """Manitoba"""
+  """
+  Manitoba
+  """
   CI_MUNIC_MB
 
-  """Ontario"""
+  """
+  Ontario
+  """
   CI_MUNIC_ON
 
-  """Quebec"""
+  """
+  Quebec
+  """
   CI_MUNIC_QC
 
-  """New Brunswick"""
+  """
+  New Brunswick
+  """
   CI_MUNIC_NB
 
-  """Nova Scotia"""
+  """
+  Nova Scotia
+  """
   CI_MUNIC_NS
 
-  """Prince Edward Island"""
+  """
+  Prince Edward Island
+  """
   CI_MUNIC_PEI
 
-  """Newfoundland and Labrador"""
+  """
+  Newfoundland and Labrador
+  """
   CI_MUNIC_NL
 
-  """Yukon"""
+  """
+  Yukon
+  """
   CI_MUNIC_YT
 
-  """Nunavut"""
+  """
+  Nunavut
+  """
   CI_MUNIC_NU
 
-  """Northwest Territories"""
+  """
+  Northwest Territories
+  """
   CI_MUNIC_NT
 
-  """Information and Communication Technology"""
+  """
+  Information and Communication Technology
+  """
   CI_ICT
 
-  """Finance"""
+  """
+  Finance
+  """
   CI_FIN
 
-  """Energy and Utilities"""
+  """
+  Energy and Utilities
+  """
   CI_UTIL
 
-  """Electricity"""
+  """
+  Electricity
+  """
   CI_UTIL_ELECT
 
-  """Oil and Gas"""
+  """
+  Oil and Gas
+  """
   CI_UTIL_OIL
 
-  """Nuclear"""
+  """
+  Nuclear
+  """
   CI_UTIL_NCLR
 
-  """Mines and Minerals"""
+  """
+  Mines and Minerals
+  """
   CI_UTIL_MINE
 
-  """Transportation"""
+  """
+  Transportation
+  """
   CI_TRANS
 
-  """Air"""
+  """
+  Air
+  """
   CI_TRANS_AIR
 
-  """Marine"""
+  """
+  Marine
+  """
   CI_TRANS_SEA
 
-  """Rail"""
+  """
+  Rail
+  """
   CI_TRANS_RAIL
 
-  """Road"""
+  """
+  Road
+  """
   CI_TRANS_ROAD
 
-  """Manufacturing"""
+  """
+  Manufacturing
+  """
   CI_MANUF
 
-  """Health"""
+  """
+  Health
+  """
   CI_HEALTH
 
-  """Food"""
+  """
+  Food
+  """
   CI_FOOD
 
-  """Water"""
+  """
+  Water
+  """
   CI_WATER
 
-  """Safety"""
+  """
+  Safety
+  """
   CI_SAFETY
 
-  """Other"""
+  """
+  Other
+  """
   CI_OTHER
 
-  """Industrial Control Systems"""
+  """
+  Industrial Control Systems
+  """
   CI_SCADA
 
-  """Cyber Security"""
+  """
+  Cyber Security
+  """
   CI_CYBER
 
-  """Academia"""
+  """
+  Academia
+  """
   CI_EDU
 
-  """Non-Critical"""
+  """
+  Non-Critical
+  """
   CI_NCSI
 
-  """Assess"""
+  """
+  Assess
+  """
   S1
 
-  """Deploy"""
+  """
+  Deploy
+  """
   S2
 
-  """Enforce"""
+  """
+  Enforce
+  """
   S3
 
-  """Maintain"""
+  """
+  Maintain
+  """
   S4
 }
 
 type Group implements Node {
-  """The ID of the object."""
+  """
+  The ID of the object.
+  """
   id: ID!
   description: String
   sectorId: Int
-  organizations(before: String, after: String, first: Int, last: Int): OrganizationsConnection
+  organizations(
+    before: String
+    after: String
+    first: Int
+    last: Int
+  ): OrganizationsConnection
   groupSector: Sector
 }
 
 type GroupsConnection {
-  """Pagination data for this connection."""
+  """
+  Pagination data for this connection.
+  """
   pageInfo: PageInfo!
 
-  """Contains the nodes in this connection."""
+  """
+  Contains the nodes in this connection.
+  """
   edges: [GroupsEdge]!
 }
 
-"""A Relay edge containing a `Groups` and its cursor."""
+"""
+A Relay edge containing a `Groups` and its cursor.
+"""
 type GroupsEdge {
-  """The item at the end of the edge"""
+  """
+  The item at the end of the edge
+  """
   node: Group
 
-  """A cursor for use in pagination"""
+  """
+  A cursor for use in pagination
+  """
   cursor: String!
 }
 
-"""The central gathering point for all of the GraphQL mutations."""
+"""
+The central gathering point for all of the GraphQL mutations.
+"""
 type Mutation {
-  createUser(confirmPassword: String!, email: EmailAddress!, password: String!, username: String!): CreateUser
+  createUser(
+    confirmPassword: String!
+    email: EmailAddress!
+    password: String!
+    username: String!
+  ): CreateUser
   signIn(
-    """User's email"""
+    """
+    User's email
+    """
     email: EmailAddress!
 
-    """Users's password"""
+    """
+    Users's password
+    """
     password: String!
   ): SignInUser
-  updatePassword(confirmPassword: String!, email: EmailAddress!, password: String!): UpdateUserPassword
-  authenticateTwoFactor(email: EmailAddress!, otpCode: String!): ValidateTwoFactor
-  updateUserRole(email: EmailAddress!, role: String!, token: String!): UpdateUserRole
+  updatePassword(
+    confirmPassword: String!
+    email: EmailAddress!
+    password: String!
+  ): UpdateUserPassword
+  authenticateTwoFactor(
+    email: EmailAddress!
+    otpCode: String!
+  ): ValidateTwoFactor
+  updateUserRole(
+    email: EmailAddress!
+    role: String!
+    token: String!
+  ): UpdateUserRole
 }
 
-"""An object with an ID"""
+"""
+An object with an ID
+"""
 interface Node {
-  """The ID of the object."""
+  """
+  The ID of the object.
+  """
   id: ID!
 }
 
 type Organization implements Node {
-  """The ID of the object."""
+  """
+  The ID of the object.
+  """
   id: ID!
-  name: String 
+  name: String
   description: String
   group: Group
-  domains(before: String, after: String, first: Int, last: Int): DomainsConnection
+  domains(
+    before: String
+    after: String
+    first: Int
+    last: Int
+  ): DomainsConnection
 }
 
 type OrganizationsConnection {
-  """Pagination data for this connection."""
+  """
+  Pagination data for this connection.
+  """
   pageInfo: PageInfo!
 
-  """Contains the nodes in this connection."""
+  """
+  Contains the nodes in this connection.
+  """
   edges: [OrganizationsEdge]!
 }
 
-"""A Relay edge containing a `Organizations` and its cursor."""
+"""
+A Relay edge containing a `Organizations` and its cursor.
+"""
 type OrganizationsEdge {
-  """The item at the end of the edge"""
+  """
+  The item at the end of the edge
+  """
   node: Organization
 
-  """A cursor for use in pagination"""
+  """
+  A cursor for use in pagination
+  """
   cursor: String!
 }
 
-"""An enumeration."""
+"""
+An enumeration.
+"""
 enum OrganizationsEnum {
-  """Arts"""
+  """
+  Arts
+  """
   Arts
 
-  """BOC - Bank of Canada"""
+  """
+  BOC - Bank of Canada
+  """
   BOC
 }
 
@@ -430,46 +665,72 @@ enum OrganizationsEnum {
 The Relay compliant `PageInfo` type, containing data necessary to paginate this connection.
 """
 type PageInfo {
-  """When paginating forwards, are there more items?"""
+  """
+  When paginating forwards, are there more items?
+  """
   hasNextPage: Boolean!
 
-  """When paginating backwards, are there more items?"""
+  """
+  When paginating backwards, are there more items?
+  """
   hasPreviousPage: Boolean!
 
-  """When paginating backwards, the cursor to continue."""
+  """
+  When paginating backwards, the cursor to continue.
+  """
   startCursor: String
 
-  """When paginating forwards, the cursor to continue."""
+  """
+  When paginating forwards, the cursor to continue.
+  """
   endCursor: String
 }
 
-"""The central gathering point for all of the GraphQL queries."""
+"""
+The central gathering point for all of the GraphQL queries.
+"""
 type Query {
-  """The ID of the object"""
+  """
+  The ID of the object
+  """
   node(id: ID!): Node
   allUsers(before: String, after: String, first: Int, last: Int): UserConnection
 
-  """Allows selection of a sector from a given sector ID"""
+  """
+  Allows selection of a sector from a given sector ID
+  """
   getSectorById(id: Int!): [Sector]
 
   sector(name: SectorEnums!): Sector
-  
-  """Allows selection of sector information from a given sector enum"""
+
+  """
+  Allows selection of sector information from a given sector enum
+  """
   getSectorsBySector(sector: SectorEnums!): [Sector]
 
-  """Allows selection of all sectors from a given zone enum"""
+  """
+  Allows selection of all sectors from a given zone enum
+  """
   getSectorByZone(zone: ZoneEnums!): [Sector]
 
-  """Allows selection of a group from a given group ID"""
+  """
+  Allows selection of a group from a given group ID
+  """
   getGroupById(id: Int!): [Group]
 
-  """Allows the selection of group information from a given group enum"""
+  """
+  Allows the selection of group information from a given group enum
+  """
   getGroupByGroup(group: GroupEnums!): [Group]
 
-  """Allows selection of groups from a given sector enum"""
+  """
+  Allows selection of groups from a given sector enum
+  """
   getGroupBySector(sector: SectorEnums!): [Group]
 
-  """Allows the selection of an organization from a given ID"""
+  """
+  Allows the selection of an organization from a given ID
+  """
   getOrgById(id: Int!): [Organization]
 
   """
@@ -477,16 +738,24 @@ type Query {
   """
   organization(name: OrganizationsEnum!): Organization
 
-  """Allows the selection of organizations from a given group"""
+  """
+  Allows the selection of organizations from a given group
+  """
   getOrgByGroup(group: GroupEnums!): [Organization]
 
-  """Allows the selection of a domain from a given ID"""
+  """
+  Allows the selection of a domain from a given ID
+  """
   getDomainById(id: Int!): [Domain]
 
-  """Allows the selection of a domain from a given domain"""
+  """
+  Allows the selection of a domain from a given domain
+  """
   domain(url: URL!): Domain
 
-  """Allows the selection of domains under an organization"""
+  """
+  Allows the selection of domains under an organization
+  """
   domains(organization: OrganizationsEnum!): [Domain]
 
   """
@@ -501,84 +770,136 @@ type Query {
 }
 
 enum SectorEnums {
-  """Arts"""
+  """
+  Arts
+  """
   GC_A
 
-  """Banking and Finance"""
+  """
+  Banking and Finance
+  """
   GC_BF
 
-  """Border Services and Immigration"""
+  """
+  Border Services and Immigration
+  """
   GC_BSI
 
-  """Government Administration"""
+  """
+  Government Administration
+  """
   GC_GA
 
-  """Health"""
+  """
+  Health
+  """
   GC_H
 
-  """Industry and Business Development"""
+  """
+  Industry and Business Development
+  """
   GC_IBD
 
-  """International Affairs Trade & Development"""
+  """
+  International Affairs Trade & Development
+  """
   GC_IATD
 
-  """Legal"""
+  """
+  Legal
+  """
   GC_L
 
-  """Natural Resources Energy & Environment"""
+  """
+  Natural Resources Energy & Environment
+  """
   GC_NRED
 
-  """Security Intelligence and Defence"""
+  """
+  Security Intelligence and Defence
+  """
   GC_SID
 
-  """Transportation"""
+  """
+  Transportation
+  """
   GC_T
 
-  """Social and Cultural Development"""
+  """
+  Social and Cultural Development
+  """
   GC_SCD
 
-  """Future Government of Canada"""
+  """
+  Future Government of Canada
+  """
   GC_F
 
-  """Government (Provincial/Territorial/Municipal)"""
+  """
+  Government (Provincial/Territorial/Municipal)
+  """
   CI_PTM
 
-  """Information and Communication Technology"""
+  """
+  Information and Communication Technology
+  """
   CI_ICT
 
-  """Finance"""
+  """
+  Finance
+  """
   CI_FIN
 
-  """Energy and Utilities"""
+  """
+  Energy and Utilities
+  """
   CI_UTIL
 
-  """Transportation"""
+  """
+  Transportation
+  """
   CI_TRANS
 
-  """Manufacturing"""
+  """
+  Manufacturing
+  """
   CI_MANUF
 
-  """Health"""
+  """
+  Health
+  """
   CI_HEALTH
 
-  """Food"""
+  """
+  Food
+  """
   CI_FOOD
 
-  """Water"""
+  """
+  Water
+  """
   CI_WATER
 
-  """Safety"""
+  """
+  Safety
+  """
   CI_SAFETY
 
-  """Other"""
+  """
+  Other
+  """
   CI_OTHER
 
-  """Development test cases"""
+  """
+  Development test cases
+  """
   TEST_DEV
 }
 
 type Sector implements Node {
-  """The ID of the object."""
+  """
+  The ID of the object.
+  """
   id: ID!
   name: String
   zone: String
@@ -589,7 +910,9 @@ type Sector implements Node {
 type SignInUser {
   user: UserObject
 
-  """Token returned to user"""
+  """
+  Token returned to user
+  """
   authToken: String
 }
 
@@ -608,24 +931,36 @@ https://www.ietf.org/rfc/rfc3986.txt.
 scalar URL
 
 type UserConnection {
-  """Pagination data for this connection."""
+  """
+  Pagination data for this connection.
+  """
   pageInfo: PageInfo!
 
-  """Contains the nodes in this connection."""
+  """
+  Contains the nodes in this connection.
+  """
   edges: [UserEdge]!
 }
 
-"""A Relay edge containing a `User` and its cursor."""
+"""
+A Relay edge containing a `User` and its cursor.
+"""
 type UserEdge {
-  """The item at the end of the edge"""
+  """
+  The item at the end of the edge
+  """
   node: UserObject
 
-  """A cursor for use in pagination"""
+  """
+  A cursor for use in pagination
+  """
   cursor: String!
 }
 
 type UserObject implements Node {
-  """The ID of the object."""
+  """
+  The ID of the object.
+  """
   id: ID!
   username: String
   displayName: String
@@ -641,13 +976,18 @@ type ValidateTwoFactor {
 }
 
 enum ZoneEnums {
-  """Government of Canada"""
+  """
+  Government of Canada
+  """
   GC
 
-  """Critical Infrastructure"""
+  """
+  Critical Infrastructure
+  """
   CI
 
-  """Development Test Case"""
+  """
+  Development Test Case
+  """
   TEST
 }
-
